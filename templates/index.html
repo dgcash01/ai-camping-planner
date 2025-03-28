@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Campground Search - AI Camping Planner{% endblock %}
+
+{% block content %}
+    {# --- Content specific to the Index/Search page --- #}
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
+            Find Family-Friendly Camping in Missouri
+        </h2>
+
+        {# --- Search Controls Section --- #}
+        <div class="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div class="flex flex-wrap items-end gap-4">
+                <div class="flex-grow sm:flex-grow-0">
+                    <label for="results-limit-select" class="block text-sm font-medium text-gray-700">Results per page:</label>
+                    <select id="results-limit-select" name="limit" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md shadow-sm">
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+
+                <button
+                    hx-get="{{ url_for('search_facilities') }}" {# Use url_for #}
+                    hx-target="#search-results-area"
+                    hx-swap="innerHTML"
+                    hx-indicator="#search-loading-spinner, #search-results-area"
+                    hx-include="#results-limit-select"
+                    class="self-end bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-md shadow-sm transition duration-150 ease-in-out"
+                >
+                    Search Family-Friendly MO Facilities
+                </button>
+
+                <span id="search-loading-spinner" class="htmx-indicator ml-2 self-end">
+                     <svg class="animate-spin h-5 w-5 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                     </svg>
+                </span>
+            </div>
+        </div>
+        {# --- End Search Controls Section --- #}
+
+
+        {# --- Target Area for Results and Pagination --- #}
+        <div id="search-results-area" class="mt-6 min-h-[200px]">
+            <p class="text-center text-gray-500">Click search to find facilities.</p>
+        </div>
+        {# --- End Target Area --- #}
+
+    </div> {# End Inner container #}
+
+     {# --- Affiliate Links Section --- #}
+    <div class="mt-8"> {# Moved margin here #}
+        <div class="bg-gradient-to-r from-yellow-100 via-amber-50 to-yellow-100 p-6 rounded-lg border border-amber-200 shadow">
+             <h3 class="text-xl font-semibold text-amber-800 mb-4">Gear Up for Adventure!</h3>
+             <p class="text-amber-700 mb-4 text-sm">Check out some essential gear for your next Missouri camping trip (As an Amazon Associate, I earn from qualifying purchases):</p>
+             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                 {# Replace '#' with your actual affiliate links #}
+                 <a href="#" target="_blank" rel="sponsored noopener noreferrer" class="text-emerald-700 hover:underline">Family Tent Recommendation</a>
+                 <a href="#" target="_blank" rel="sponsored noopener noreferrer" class="text-emerald-700 hover:underline">Comfortable Sleeping Bags</a>
+                 <a href="#" target="_blank" rel="sponsored noopener noreferrer" class="text-emerald-700 hover:underline">Camp Stove Essentials</a>
+                 <a href="#" target="_blank" rel="sponsored noopener noreferrer" class="text-emerald-700 hover:underline">Missouri Hiking Guidebook</a>
+             </div>
+        </div>
+    </div>
+    {# --- End Affiliate Links Section --- #}
+
+{% endblock %}

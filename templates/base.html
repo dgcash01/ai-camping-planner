@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {# Dynamically set title, fallback to default #}
+    <title>{% block title %}AI Camping Planner{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@latest/dist/htmx.min.js"></script>
+    {# Add defer for AlpineJS if using it for mobile menu later #}
+    {# <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> #}
+
+    <style>
+      /* Style for the target area during an HTMX request */
+      #search-results-area.htmx-request {
+        opacity: 0.5;
+        transition: opacity 300ms ease-in-out;
+      }
+      #search-results-area {
+        transition: opacity 150ms ease-in-out;
+      }
+      /* Simple mobile menu toggle styling (can enhance later) */
+      /* [x-cloak] { display: none !important; } */
+    </style>
+</head>
+<body class="bg-emerald-50 font-sans">
+
+    {# --- Navbar --- #}
+    <nav class="bg-emerald-700 text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16"> {# Navbar height h-16 (64px) #}
+                <div class="flex items-center">
+                    {# --- LOGO ADDED HERE --- #}
+                    <a href="{{ url_for('index') }}" class="flex-shrink-0">
+                        <img class="h-20 w-auto" {# Display height h-10, auto width #}
+                             src="{{ url_for('static', filename='images/svglogo.svg') }}"
+                             alt="Adventure Camp Planner Logo">
+                    </a>
+                    {# --- END LOGO --- #}
+                </div>
+                {# Desktop Menu Links #}
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="{{ url_for('index') }}" class="text-emerald-100 hover:bg-emerald-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Campground Search</a>
+                        <a href="{{ url_for('blog') }}" class="text-emerald-100 hover:bg-emerald-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Blog</a>
+                        {# Add more links later #}
+                    </div>
+                </div>
+                {# Mobile Menu Button (Needs JS like AlpineJS or custom JS to function) #}
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" class="bg-emerald-700 inline-flex items-center justify-center p-2 rounded-md text-emerald-200 hover:text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-emerald-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false" > {# Removed @click for now #}
+                        <span class="sr-only">Open main menu</span>
+                        {# Icon when menu is closed (Heroicon menu) #}
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        {# Icon when menu is open (Heroicon x) - Kept hidden for now #}
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        {# Mobile menu, show/hide based on menu state (Non-functional without JS) #}
+        <div class="md:hidden hidden" id="mobile-menu"> {# Added 'hidden' class for now #}
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{{ url_for('index') }}" class="text-emerald-100 hover:bg-emerald-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Campground Search</a>
+                <a href="{{ url_for('blog') }}" class="text-emerald-100 hover:bg-emerald-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Blog</a>
+            </div>
+        </div>
+    </nav> {# --- End Navbar --- #}
+
+
+    {# --- Main Content Block --- #}
+    <main class="max-w-5xl mx-auto p-6 mt-8 mb-8">
+        {% block content %}{% endblock %}
+    </main>
+    {# --- End Main Content Block --- #}
+
+    {# --- Footer --- #}
+    <footer class="text-center py-4 mt-8 text-sm text-gray-500 border-t border-gray-200">
+        AI Camping Planner &copy; {% block year %}{{ current_year if current_year else '2025' }}{% endblock %} {# Added default year #}
+    </footer>
+
+</body>
+</html>
